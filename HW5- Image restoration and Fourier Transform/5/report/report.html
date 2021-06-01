@@ -1,0 +1,146 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title></title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-09-01"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul>
+  	<li><a href="#1">FFT-Based Technique</a></li>
+  	<li><a href="#2">parameters</a></li>
+  	<li><a href="#3">test_images</a></li>
+  	<li><a href="#4">Fourier transforms</a></li>
+  	<li><a href="#5">Cross Power Spectrum</a></li>
+  	<li><a href="#6">Noised Image</a></li>
+  	<li><a href="#7">Figures</a></li>
+  </ul></div>
+
+<h2 id="1">FFT-Based Technique</h2>
+
+<h2 id="2">Parameters</h2><pre class="codeinput">
+sz= 300;
+up = 70;
+low = 50;
+pos = 50;
+pos1 = 120;
+pos2 = 20;
+
+</pre>
+
+<h2 id="3">create images</h2><pre class="codeinput">
+%image I
+img_I = zeros(sz,sz);
+img_I(pos:pos+up-1,pos:pos+low-1) = 255;
+
+%image J
+img_J = zeros(sz,sz);
+img_J(pos1:pos1+up-1,pos2:pos2+low-1) = 255;
+
+ 
+</pre>
+
+<h2 id="4">Fourier transforms</h2><pre class="codeinput">
+FT_J = fftshift(fft2(img_J));
+FT_I = fftshift(fft2(img_I));
+</pre>
+
+
+
+<h2  id="5">Cross power Spectrum</h2><pre class="codeinput">
+spect = (FT_I.*conj(FT_J))./(1e-5 + abs(FT_I).*abs(FT_J));
+FT_spect = real(fft2(spect));
+log_FT_spect = log(abs(FT_spect));
+</pre>
+<h2 id="6">Noised Image</h2><pre class="codeinput">
+  %% noised image
+noised_img_I = img_I + 20*randn(sz);
+noised_img_J = img_J + 20*randn(sz);
+
+%Fourier transform
+noised_FT_J = fftshift(fft2(noised_img_J));
+noised_FT_I = fftshift(fft2(noised_img_I));
+
+%Cross power Spectrum
+noised_spect = (noised_FT_I.*conj(noised_FT_J))./(1e-5 + abs(noised_FT_I).*abs(noised_FT_J));
+noised_FT_spect = real(fft2(noised_spect));
+noised_log_FT_spect = log(abs(noised_FT_spect));
+
+</pre>
+
+<h2 id="7">Display All Images</h2>
+   
+<img vspace="8" hspace="8" align="center" src="../images/fig1.png" alt="">
+<img vspace="8" hspace="8" src="../images/fig2.png" alt=""><br>
+<img vspace="8" hspace="8" src="../images/fig3.png" alt="">
+<img vspace="8" hspace="8" src="../images/fig4.png" alt=""><br>
+<img vspace="8" hspace="8" src="../images/fig5.png" alt="">
+<img vspace="8" hspace="8" src="../images/fig6.png" alt="">
+</pre>
+
+
+
+
+<br></p></div>
+
+
+

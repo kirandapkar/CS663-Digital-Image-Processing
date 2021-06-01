@@ -1,0 +1,354 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-09-01"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MyMainScript</a></li><li><a href="#2">Part a)</a></li><li><a href="#4">Conclusion</a></li><li><a href="#5">Part b)</a></li><li><a href="#6">Part c)</a></li><li><a href="#7">Conclusion</a></li><li><a href="#8">Part d)</a></li><li><a href="#9">Part e)</a></li><li><a href="#10">Part f)</a></li><li><a href="#13">Conclusion</a></li></ul></div><h2 id="1">MyMainScript</h2><pre class="codeinput">tic;
+</pre><h2 id="2">Part a)</h2><p>Shrinking images using subsampling. <img src="myMainScript_eq08876001982770782792.png" alt="$$ \\ $$"></p><p>The subsampling is done by the function myShrinkImageByFactorD which selects every <img src="myMainScript_eq10716075465034066144.png" alt="$$ d^{th} $$"> pixel from the rows and columns.</p><pre class="codeinput"><span class="comment">% Read image Concentric Circles image</span>
+img = imread(<span class="string">'circles_concentric.png'</span>);
+
+<span class="comment">% Subsampling</span>
+<span class="comment">% Subsampling the original images by choosing the dth pixel</span>
+
+d = 2;
+subimg1 = myShrinkImageByFactorD(img,d);
+
+d = 3;
+subimg2 = myShrinkImageByFactorD(img,d);
+
+<span class="comment">% Display</span>
+figure1 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+
+<span class="comment">% Original Image</span>
+subplot(1,3,1), imshow(img);
+title(<span class="string">'Original'</span>);
+xlabel(<span class="string">'Pixels'</span>);
+colorbar;
+axis <span class="string">on</span>;
+
+<span class="comment">% Subsampled Image (d=2)</span>
+subplot(1,3,2), imshow(subimg1);
+title(<span class="string">'Shrunken Image (d=2)'</span>);
+xlabel(<span class="string">'Pixels'</span>);
+colorbar;
+axis <span class="string">on</span>;
+
+<span class="comment">% Subsampled Image (d=3)</span>
+subplot(1,3,3), imshow(subimg2);
+title(<span class="string">'Shrunken Image (d=3)'</span>);
+xlabel(<span class="string">'Pixels'</span>);
+colorbar;
+axis <span class="string">on</span>;
+sgtitle(<span class="string">'Shrinking by Subsampling Results'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_01.png" alt=""> <h2 id="4">Conclusion</h2><p>The outputs are displayed side by side with the original image for reference in which Moire Effects are clearing visible.</p><h2 id="5">Part b)</h2><p>Image reading and interpolation</p><pre class="codeinput">A=imread(<span class="string">"barbaraSmall.png"</span>);
+Bi=myBilinearInterpolation(A);
+
+<span class="comment">% Display</span>
+figure2 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,2,1), imshow(A);
+title(<span class="string">'Original Image'</span>)
+axis <span class="string">on</span>
+colorbar
+
+subplot(1,2,2),imshow(mat2gray(Bi));
+title(<span class="string">'Interpolated Image'</span>)
+<span class="comment">% changed aspect ratio of axes to make the image again a square image</span>
+daspect([205 307 307])
+axis <span class="string">on</span>
+colorbar
+</pre><img vspace="5" hspace="5" src="myMainScript_02.png" alt=""> <h2 id="6">Part c)</h2><p>Reading image and interpolation</p><pre class="codeinput">A=imread(<span class="string">"barbaraSmall.png"</span>);
+Ni=myNearestNeighbourInterpolation(A);
+
+<span class="comment">%Display</span>
+figure3 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(A);
+title(<span class="string">'Original Image'</span>)
+axis <span class="string">on</span>
+colorbar
+
+subplot(1,2,2),imshow(mat2gray(Ni));
+title(<span class="string">'Interpolated Image'</span>)
+<span class="comment">% changed aspect ratio</span>
+daspect([205 307 307])
+axis <span class="string">on</span>
+colorbar
+</pre><img vspace="5" hspace="5" src="myMainScript_03.png" alt=""> <h2 id="7">Conclusion</h2><p>Even after having the same resolution as Bilinearly interpolated image, image is not that much smooth</p><h2 id="8">Part d)</h2><pre class="codeinput">i1= <span class="string">"barbaraSmall.png"</span>;
+i2= <span class="string">"circles_concentric.png"</span>;
+
+
+image1 = myBicubicInterpolation(i1);
+image2 = myBicubicInterpolation(i2);
+
+figure4 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+
+subplot(1,4,1),imshow(mat2gray(image1));
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">"barbaraSmall Bicubic Enlarged"</span>);
+subplot(1,4,2),imshow(mat2gray(image2));
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">"circlesConcentric Bicubic Enlarged"</span>);
+subplot(1,4,3),imshow(i1);
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">"barbara original"</span>);
+subplot(1,4,4),imshow(i2);
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">"circles original"</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_04.png" alt=""> <h2 id="9">Part e)</h2><p>The results are stored in the reports directory, in which the image is enlarged using different interpolation methods.</p><h2 id="10">Part f)</h2><p>Image Rotation using Bilinear Interpolation. <img src="myMainScript_eq08876001982770782792.png" alt="$$ \\ $$"></p><p>The pixel is grid rotated using the mapping <img src="myMainScript_eq02905105083467716259.png" alt="$$ T^{-1}R^{-1}(\theta)TX' = X $$"> where <img src="myMainScript_eq15207819209539453697.png" alt="$$ T^{-1}R^{-1}(\theta)T $$"> takes the coordinates of the rotated image to the coordinates of the original image and then Bilinear interpolation is used at point X to get the corresponding Intensity.</p><p><img src="myMainScript_eq16237370306952120210.png" alt="$$ T $$"> takes the coordinates of the pixels from the original coordinate system to the center of frame coordinate system and vice-versa for <img src="myMainScript_eq02094316346254202515.png" alt="$$ T^{-1} $$">.</p><pre class="codeinput"><span class="comment">% Reading the image</span>
+img = imread(<span class="string">'barbaraSmall.png'</span>);
+
+<span class="comment">% Rotating the pixel coordinates</span>
+deg = 30;
+deg = deg2rad(deg);
+rotimg = myImageRotation(img,deg);
+
+<span class="comment">% Display</span>
+figure5 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+<span class="comment">% Original Image</span>
+
+subplot(1,2,1), imshow(img);
+title(<span class="string">'Original Image'</span>);
+colorbar;
+axis <span class="string">on</span>;
+
+subplot(1,2,2), imshow(rotimg);
+title(<span class="string">'Rotated Image'</span>);
+colorbar;
+axis <span class="string">on</span>;
+sgtitle(<span class="string">'Rotation by Bilinear Interpolation Result'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_05.png" alt=""> <h2 id="13">Conclusion</h2><p>In the Original Image is rotated by 30 degrees clockwise using bilinear interpolation, and it can be noticed that the edges after rotation are not smooth and appear to be jagged due to the quantization of coordinates.</p><pre class="codeinput">toc;
+</pre><pre class="codeoutput">Elapsed time is 6.157901 seconds.
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MyMainScript
+
+tic;
+%% Part a)
+% Shrinking images using subsampling. $$ \\ $$
+%%
+% The subsampling is done by the function myShrinkImageByFactorD which
+% selects every $$ d^{th} $$ pixel from the rows and columns.
+
+% Read image Concentric Circles image
+img = imread('circles_concentric.png');
+
+% Subsampling
+% Subsampling the original images by choosing the dth pixel
+
+d = 2;
+subimg1 = myShrinkImageByFactorD(img,d);
+
+d = 3;
+subimg2 = myShrinkImageByFactorD(img,d);
+
+% Display
+figure1 = figure('Position', [0, 0, 5000, 5000]);
+
+% Original Image
+subplot(1,3,1), imshow(img);
+title('Original');
+xlabel('Pixels');
+colorbar;
+axis on;
+
+% Subsampled Image (d=2)
+subplot(1,3,2), imshow(subimg1);
+title('Shrunken Image (d=2)');
+xlabel('Pixels');
+colorbar;
+axis on;
+
+% Subsampled Image (d=3)
+subplot(1,3,3), imshow(subimg2);
+title('Shrunken Image (d=3)');
+xlabel('Pixels');
+colorbar;
+axis on;
+sgtitle('Shrinking by Subsampling Results');
+
+%% Conclusion
+% The outputs are displayed side by side with the original image for reference
+% in which Moire Effects are clearing visible.
+
+%% Part b)
+% Image reading and interpolation
+A=imread("barbaraSmall.png");
+Bi=myBilinearInterpolation(A);
+
+% Display
+figure2 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,2,1), imshow(A);
+title('Original Image')
+axis on
+colorbar
+
+subplot(1,2,2),imshow(mat2gray(Bi));
+title('Interpolated Image')
+% changed aspect ratio of axes to make the image again a square image
+daspect([205 307 307])
+axis on
+colorbar
+%% Part c)
+% Reading image and interpolation
+A=imread("barbaraSmall.png");
+Ni=myNearestNeighbourInterpolation(A);
+
+%Display
+figure3 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(A);
+title('Original Image')
+axis on
+colorbar
+
+subplot(1,2,2),imshow(mat2gray(Ni));
+title('Interpolated Image')
+% changed aspect ratio
+daspect([205 307 307])
+axis on
+colorbar
+%% Conclusion
+% Even after having the same resolution as Bilinearly interpolated image,
+% image is not that much smooth
+%% Part d)
+i1= "barbaraSmall.png";
+i2= "circles_concentric.png";
+
+
+image1 = myBicubicInterpolation(i1);
+image2 = myBicubicInterpolation(i2);
+
+figure4 = figure('Position', [0, 0, 5000, 5000]);
+
+subplot(1,4,1),imshow(mat2gray(image1));
+colorbar;
+axis on;
+title("barbaraSmall Bicubic Enlarged");
+subplot(1,4,2),imshow(mat2gray(image2));
+colorbar;
+axis on;
+title("circlesConcentric Bicubic Enlarged");
+subplot(1,4,3),imshow(i1);
+colorbar;
+axis on;
+title("barbara original");
+subplot(1,4,4),imshow(i2);
+colorbar;
+axis on;
+title("circles original");
+
+%% Part e)
+% The results are stored in the reports directory, in which the image is
+% enlarged using different interpolation methods.
+
+%% Part f)
+% Image Rotation using Bilinear Interpolation. $$ \\ $$
+%%
+% The pixel is grid rotated using the mapping $$ T^{-1}R^{-1}(\theta)TX' = X $$ where
+% $$ T^{-1}R^{-1}(\theta)T $$ takes the coordinates of the rotated image to the
+% coordinates of the original image and then Bilinear interpolation is used
+% at point X to get the corresponding Intensity.
+%%
+% $$ T $$ takes the coordinates of the pixels from the original coordinate
+% system to the center of frame coordinate system and vice-versa for $$ T^{-1} $$.
+
+% Reading the image
+img = imread('barbaraSmall.png');
+
+% Rotating the pixel coordinates
+deg = 30;
+deg = deg2rad(deg);
+rotimg = myImageRotation(img,deg);
+
+% Display
+figure5 = figure('Position', [0, 0, 5000, 5000]);
+% Original Image
+
+subplot(1,2,1), imshow(img);
+title('Original Image');
+colorbar;
+axis on;
+
+subplot(1,2,2), imshow(rotimg);
+title('Rotated Image');
+colorbar;
+axis on;
+sgtitle('Rotation by Bilinear Interpolation Result');
+
+%% Conclusion
+% In the Original Image is rotated by 30 degrees clockwise using bilinear
+% interpolation, and it can be noticed that the edges after rotation are
+% not smooth and appear to be jagged due to the quantization of
+% coordinates.
+%%
+
+toc;
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,231 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-11-07"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Question 6</a></li><li><a href="#2">Alternate testing method</a></li><li><a href="#3">Training Phase</a></li><li><a href="#4">Testing phase</a></li></ul></div><h2 id="1">Question 6</h2><pre class="codeinput"><span class="comment">%If we test for the subjects which were not the part of training set then</span>
+<span class="comment">%the distance between the eigen-coefficient vector of gallery images and probe image will be large</span>
+</pre><h2 id="2">Alternate testing method</h2><p>We took Eigen-coefficient vector of the 6 gallery images of each subject in training phase, and calculated the distances between those vectors and took the the average of it. Now while testing the probe image we had calculated the distance between the eigencoefficient vectors of the probe and one of the gallery images and then if that distance is less than the avearge of the distance (which we calculated earlier for each subject) then that probe image is considered to have its identity in the training database.</p><h2 id="3">Training Phase</h2><pre class="codeinput">ORL_path  = <span class="string">"../data/ORL"</span>;
+
+directoryPath = ORL_path;
+
+w = 112;
+h = 92;
+
+numF = 32;
+numTrain_img = 6;
+numTest_img = 4;
+
+num_faces = 1:numF;
+
+<span class="comment">% kronecker delta of all faces in testing</span>
+
+X = zeros([w*h numF*numTrain_img]);
+
+<span class="keyword">for</span> i = 1:numF
+    <span class="keyword">for</span> j = 1:numTrain_img
+        p = directoryPath+<span class="string">"/s"</span>+num2str(i)+<span class="string">"/"</span>+num2str(j)+<span class="string">".pgm"</span>;
+        img = imread(p);
+        X(:,(numTrain_img)*i-numTrain_img+j) = img(:);
+
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+mean = transpose(sum(transpose(X)))/(numF*numTrain_img);
+X = X - kron(mean, ones([1 numF*numTrain_img]));
+X32_test=X; <span class="comment">% these training images will be tested for false negative case</span>
+[U,~,~] = svd(X);
+
+<span class="comment">%normalize</span>
+normalized = sqrt(sum(U.^2));
+U = U ./ kron(normalized, ones([w*h 1]));
+
+Vk = U(:,1:20);
+c = transpose(Vk)*X;
+</pre><h2 id="4">Testing phase</h2><pre class="codeinput">fls_pos=0; fls_neg=0;
+
+<span class="comment">% Reading the test images for rest 8 subjects</span>
+X8_test = zeros([w*h 8*numTest_img]);
+<span class="keyword">for</span> i1 = 33:40
+    <span class="keyword">for</span> j1 = 1:numTest_img
+        p = directoryPath+<span class="string">"/s"</span>+num2str(i1)+<span class="string">"/"</span>+num2str(j1+6)+<span class="string">".pgm"</span>;
+        img = imread(p);
+        X8_test(:,(i1-32)*numTest_img-numTest_img+j1)= double(img(:))-mean;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">%Testing for false positive cases on 4 testing images of rest 8 subjects</span>
+<span class="keyword">for</span> t8=1:32
+    <span class="keyword">if</span> imMatching(Vk,c,X8_test(:,t8))==1
+        fls_pos=fls_pos+1;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Testing for false negative cases on all the training images</span>
+<span class="keyword">for</span> t32=1:numF*numTest_img
+    <span class="keyword">if</span> imMatching(Vk,c,X32_test(:,t32))==0
+        fls_neg=fls_neg+1;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+fls_pos_rate=fls_pos/32
+fls_neg_rate=fls_neg/(32*6)
+</pre><pre class="codeoutput">
+fls_pos_rate =
+
+    0.0938
+
+
+fls_neg_rate =
+
+     0
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Question 6
+%If we test for the subjects which were not the part of training set then
+%the distance between the eigen-coefficient vector of gallery images and probe image will be large
+%% Alternate testing method
+% We took Eigen-coefficient vector of the 6 gallery images of each subject in training phase, 
+% and calculated the distances between those vectors and took the the
+% average of it. Now while testing the probe image we had calculated the
+% distance between the eigencoefficient vectors of the probe and one of the
+% gallery images and then if that distance is less than the avearge of the
+% distance (which we calculated earlier for each subject) then that probe
+% image is considered to have its identity in the training database.
+%% Training Phase 
+ORL_path  = "../data/ORL";
+
+directoryPath = ORL_path;
+
+w = 112;
+h = 92;
+
+numF = 32;
+numTrain_img = 6;
+numTest_img = 4;
+
+num_faces = 1:numF;
+
+% kronecker delta of all faces in testing 
+
+X = zeros([w*h numF*numTrain_img]);
+
+for i = 1:numF
+    for j = 1:numTrain_img
+        p = directoryPath+"/s"+num2str(i)+"/"+num2str(j)+".pgm";
+        img = imread(p);
+        X(:,(numTrain_img)*i-numTrain_img+j) = img(:);
+        
+    end
+end  
+
+mean = transpose(sum(transpose(X)))/(numF*numTrain_img);
+X = X - kron(mean, ones([1 numF*numTrain_img]));
+X32_test=X; % these training images will be tested for false negative case
+[U,~,~] = svd(X);
+
+%normalize
+normalized = sqrt(sum(U.^2));
+U = U ./ kron(normalized, ones([w*h 1]));
+
+Vk = U(:,1:20);
+c = transpose(Vk)*X;
+
+%% Testing phase
+fls_pos=0; fls_neg=0;
+
+% Reading the test images for rest 8 subjects
+X8_test = zeros([w*h 8*numTest_img]);
+for i1 = 33:40
+    for j1 = 1:numTest_img
+        p = directoryPath+"/s"+num2str(i1)+"/"+num2str(j1+6)+".pgm";
+        img = imread(p);
+        X8_test(:,(i1-32)*numTest_img-numTest_img+j1)= double(img(:))-mean;
+    end
+end
+
+%Testing for false positive cases on 4 testing images of rest 8 subjects
+for t8=1:32
+    if imMatching(Vk,c,X8_test(:,t8))==1
+        fls_pos=fls_pos+1;
+    end
+end
+
+% Testing for false negative cases on all the training images
+for t32=1:numF*numTest_img
+    if imMatching(Vk,c,X32_test(:,t32))==0
+        fls_neg=fls_neg+1;
+    end
+end
+
+fls_pos_rate=fls_pos/32
+fls_neg_rate=fls_neg/(32*6)
+
+
+##### SOURCE END #####
+--></body></html>

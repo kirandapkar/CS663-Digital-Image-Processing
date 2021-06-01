@@ -1,0 +1,556 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-09-01"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MyMainScript</a></li><li><a href="#2">Question 2</a></li><li><a href="#3">Part a)</a></li><li><a href="#6">Part b)</a></li><li><a href="#7">Conclusion</a></li><li><a href="#8">Part c)</a></li><li><a href="#9">Part d)</a></li><li><a href="#10">Performing Histogram Matching</a></li><li><a href="#11">Conclusion</a></li><li><a href="#13">Part e)</a></li></ul></div><h2 id="1">MyMainScript</h2><pre class="codeinput">tic;
+
+myNumOfColors = 256;
+myColorScale = [ [0:1/(myNumOfColors-1):1]', [0:1/(myNumOfColors-1):1]', [0:1/(myNumOfColors-1):1]'];
+</pre><h2 id="2">Question 2</h2><h2 id="3">Part a)</h2><p>Find a binary mask for the foreground region for image.</p><p>A thresholding function with threshold of 0.6*max(Intensity) = 77 was used to create the Binary Mask.</p><p>And element wise multiplication of the Original Image with the Bitmask was used to create the Masked image.</p><pre class="codeinput"><span class="comment">% Read Image</span>
+img = imread(<span class="string">'statue.png'</span>);
+
+<span class="comment">% Masking</span>
+[bitmask,maskimg] = myForegroundMask(img);
+
+<span class="comment">% Display</span>
+figure1 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,3,2), imshow(bitmask);
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">'Bitmask Image'</span>);
+subplot(1,3,1), imshow(img);
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">'Original Image'</span>);
+subplot(1,3,3), imshow(maskimg);
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">'Masked Image'</span>);
+
+sgtitle(<span class="string">'Binary Mask and Masked Image'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_01.png" alt=""> <h2 id="6">Part b)</h2><p>Linear Contrast Stretching</p><pre class="codeinput">im_1=imread(<span class="string">"barbara.png"</span>);
+im_2=imread(<span class="string">"TEM.png"</span>);
+im_3=imread(<span class="string">"canyon.png"</span>); im_3=rgb2gray(im_3);
+im_5=imread(<span class="string">"church.png"</span>); im_5=rgb2gray(im_5);
+im_6=imread(<span class="string">"chestXray.png"</span>);
+im_7=imread(<span class="string">"bitmask.png"</span>); im_7=rgb2gray(im_7);
+im_8=imread(<span class="string">"masked.png"</span>); im_8=rgb2gray(im_8);
+
+Fim_1=myLinearContrastStretching(im_1);
+Fim_2=myLinearContrastStretching(im_2);
+Fim_3=myLinearContrastStretching(im_3);
+Fim_5=myLinearContrastStretching(im_5);
+Fim_6=myLinearContrastStretching(im_6);
+Fim_7=myLinearContrastStretching(im_7);
+Fim_8=myLinearContrastStretching(im_8);
+
+figure2 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_1)
+title(<span class="string">'Original Image'</span>)
+colorbar
+subplot(1,2,2),imshow(Fim_1)
+title(<span class="string">'Contrast Streched'</span>)
+colorbar
+figure3 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_2)
+title(<span class="string">'Original Image'</span>)
+colorbar
+subplot(1,2,2),imshow(Fim_2)
+title(<span class="string">'Contrast Streched'</span>)
+colorbar
+figure4 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_3)
+title(<span class="string">'Original Image'</span>)
+colorbar
+subplot(1,2,2),imshow(Fim_3)
+title(<span class="string">'Contrast Streched'</span>)
+colorbar
+figure5 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_5)
+title(<span class="string">'Original Image'</span>)
+colorbar
+subplot(1,2,2),imshow(Fim_5)
+title(<span class="string">'Contrast Streched'</span>)
+colorbar
+figure6 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_6)
+title(<span class="string">'Original Image'</span>)
+colorbar
+subplot(1,2,2),imshow(Fim_6)
+title(<span class="string">'Contrast Streched'</span>)
+colorbar
+figure7 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_7)
+title(<span class="string">'Original Image'</span>)
+colorbar
+subplot(1,2,2),imshow(Fim_7)
+title(<span class="string">'Contrast Streched'</span>)
+colorbar
+figure8 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_8)
+title(<span class="string">'Original Image'</span>)
+colorbar
+subplot(1,2,2),imshow(Fim_8)
+title(<span class="string">'Contrast Streched'</span>)
+colorbar
+</pre><img vspace="5" hspace="5" src="myMainScript_02.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_03.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_04.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_05.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_06.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_07.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_08.png" alt=""> <h2 id="7">Conclusion</h2><p>Formula for Linear Contrast Stretching function <img src="myMainScript_eq08876001982770782792.png" alt="$$ \\ $$"> T(x,y)= m*R(x,y), where m=255/max intensity of original image <img src="myMainScript_eq08876001982770782792.png" alt="$$ \\ $$"> After contrast stretching image 5 ('church'), there's no change in the original image. Because maximum intensity of that image is 255, so the transformation function becomes identity for this image.</p><h2 id="8">Part c)</h2><p>Histogram Equalization</p><pre class="codeinput">i1= <span class="string">"barbara.png"</span>;
+i2= <span class="string">"TEM.png"</span>;
+i3= <span class="string">"canyon.png"</span>;
+i4= <span class="string">"retina.png"</span>;
+i5= <span class="string">"church.png"</span>;
+i6= <span class="string">"chestXray.png"</span>;
+i7=<span class="string">"statue.png"</span>;
+
+image1 = myHE(i1);
+image2 = myHE(i2);
+image3 = myHE(i3);
+image5 = myHE(i5);
+image6 = myHE(i6);
+figure9 = figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,5,1),imshow(image1);
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">"barbara.png HE"</span>);
+subplot(1,5,2),imshow(image2);
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">"TEM.png HE"</span>);
+subplot(1,5,3),imshow(image3);
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">"canyon.png HE"</span>);
+subplot(1,5,4),imshow(image5);
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">"church.png HE"</span>);
+subplot(1,5,5),imshow(image6);
+colorbar;
+axis <span class="string">on</span>;
+title(<span class="string">"chest xray.png HE"</span>)
+</pre><img vspace="5" hspace="5" src="myMainScript_09.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_10.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_11.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_12.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_13.png" alt=""> <h2 id="9">Part d)</h2><h2 id="10">Performing Histogram Matching</h2><pre class="codeinput"><span class="comment">% Read images</span>
+img = imread(<span class="string">'retina.png'</span>);
+imgmask = imread(<span class="string">'retinaMask.png'</span>);
+
+ref = imread(<span class="string">'retinaRef.png'</span>);
+refmask = imread(<span class="string">'retinaRefMask.png'</span>);
+
+[eqlimg,matimg] = myHM(img,imgmask,ref,refmask);
+
+<span class="comment">% Display</span>
+figure10=figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+colormap(jet(myNumOfColors));
+
+subplot(2,4,1), imshow(img);
+title(<span class="string">'Original Image'</span>);
+colorbar;
+axis <span class="string">on</span>;
+subplot(2,4,5), imhist(img);
+
+subplot(2,4,2), imshow(eqlimg);
+title(<span class="string">'Histogram Equalized Image'</span>);
+colorbar;
+axis <span class="string">on</span>;
+subplot(2,4,6), imhist(eqlimg);
+
+subplot(2,4,3), imshow(matimg);
+title(<span class="string">'Histogram Matched Image'</span>);
+colorbar;
+axis <span class="string">on</span>;
+subplot(2,4,7), imhist(matimg);
+
+subplot(2,4,4), imshow(ref);
+title(<span class="string">'Reference Image'</span>);
+colorbar;
+axis <span class="string">on</span>;
+subplot(2,4,8), imhist(ref);
+
+sgtitle(<span class="string">'Histogram Matching Results'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_14.png" alt=""> <h2 id="11">Conclusion</h2><p>The histogram of the Original Image has been matched with that of the Reference Image and in the process has also been equalized.</p><p>All the operations have been performed individually for each color channel.</p><h2 id="13">Part e)</h2><p>Contrast-Limited Adaptive Histrogram Equalization(CLAHE)</p><pre class="codeinput">I1 = myCLAHE(i1,60,0.4);
+I1_larger_ws = myCLAHE(i1,300,0.4);
+I1_smaller_ws = myCLAHE(i1,5,0.4);
+I1_half_alpha = myCLAHE(i1,60,0.2);
+
+figure11=figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,4,1),imshow(I1);
+title(<span class="string">"barbara ClAHE"</span>);
+subplot(1,4,2),imshow(I1_larger_ws);
+title(<span class="string">"barbara low contrast CLAHE"</span>);
+subplot(1,4,3),imshow(I1_smaller_ws);
+title(<span class="string">"barbara excessive noise ClAHE"</span>);
+subplot(1,4,4),imshow(I1_half_alpha);
+title(<span class="string">"barbara half_alpha CLAHE"</span>);
+
+I2 = myCLAHE(i2,120,0.5);
+I2_larger_ws = myCLAHE(i2,500,0.5);
+I2_smaller_ws = myCLAHE(i2,10,0.5);
+I2_half_alpha = myCLAHE(i2,120,0.25);
+figure12=figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,4,1),imshow(I2);
+title(<span class="string">"TEM ClAHE"</span>);
+subplot(1,4,2),imshow(I2_larger_ws);
+title(<span class="string">"TEM low contrast CLAHE"</span>);
+subplot(1,4,3),imshow(I2_smaller_ws);
+title(<span class="string">"TEM excessive noise ClAHE"</span>);
+subplot(1,4,4),imshow(I2_half_alpha);
+title(<span class="string">"TEM half_alpha CLAHE"</span>);
+
+I3 = myCLAHE(i3,50,0.1);
+I3_larger_ws = myCLAHE(i3,200,0.1);
+I3_smaller_ws = myCLAHE(i3,5,0.1);
+I3_half_alpha = myCLAHE(i3,50,0.05);
+figure13=figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,4,1),imshow(I3);
+title(<span class="string">"canyon ClAHE"</span>);
+subplot(1,4,2),imshow(I3_larger_ws);
+title(<span class="string">"canyon low contrast CLAHE"</span>);
+subplot(1,4,3),imshow(I3_smaller_ws);
+title(<span class="string">"canyon excessive noise ClAHE"</span>);
+subplot(1,4,4),imshow(I3_half_alpha);
+title(<span class="string">"canyon half_alpha CLAHE"</span>);
+
+I6 = myCLAHE(i6,100,0.5);
+I6_larger_ws = myCLAHE(i6,500,0.5);
+I6_smaller_ws = myCLAHE(i6,10,0.5);
+I6_half_alpha = myCLAHE(i6,100,0.25);
+figure14=figure(<span class="string">'Position'</span>, [0, 0, 5000, 5000]);
+subplot(1,4,1),imshow(I6);
+title(<span class="string">"chest xray ClAHE"</span>);
+subplot(1,4,2),imshow(I6_larger_ws);
+title(<span class="string">"chest xray low contrast CLAHE"</span>);
+subplot(1,4,3),imshow(I6_smaller_ws);
+title(<span class="string">"chest xray excessive noise ClAHE"</span>);
+subplot(1,4,4),imshow(I6_half_alpha);
+title(<span class="string">"chest xray half_alpha CLAHE"</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_15.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_16.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_17.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_18.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_19.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_20.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_21.png" alt=""> <pre class="codeinput">toc;
+</pre><pre class="codeoutput">Elapsed time is 544.857233 seconds.
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MyMainScript
+
+tic;
+
+myNumOfColors = 256;
+myColorScale = [ [0:1/(myNumOfColors-1):1]', [0:1/(myNumOfColors-1):1]', [0:1/(myNumOfColors-1):1]'];
+
+%% Question 2
+
+%% Part a)
+% Find a binary mask for the foreground region for image.
+%%
+% A thresholding function with threshold of 0.6*max(Intensity) = 77 was used to
+% create the Binary Mask.
+%% 
+% And element wise multiplication of the Original Image with the Bitmask
+% was used to create the Masked image.
+
+% Read Image
+img = imread('statue.png');
+
+% Masking
+[bitmask,maskimg] = myForegroundMask(img);
+
+% Display
+figure1 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,3,2), imshow(bitmask);
+colorbar;
+axis on;
+title('Bitmask Image');
+subplot(1,3,1), imshow(img);
+colorbar;
+axis on;
+title('Original Image');
+subplot(1,3,3), imshow(maskimg);
+colorbar;
+axis on;
+title('Masked Image');
+
+sgtitle('Binary Mask and Masked Image');
+
+%% Part b)
+% Linear Contrast Stretching
+im_1=imread("barbara.png");
+im_2=imread("TEM.png");
+im_3=imread("canyon.png"); im_3=rgb2gray(im_3);
+im_5=imread("church.png"); im_5=rgb2gray(im_5);
+im_6=imread("chestXray.png");
+im_7=imread("bitmask.png"); im_7=rgb2gray(im_7);
+im_8=imread("masked.png"); im_8=rgb2gray(im_8);
+
+Fim_1=myLinearContrastStretching(im_1);
+Fim_2=myLinearContrastStretching(im_2);
+Fim_3=myLinearContrastStretching(im_3);
+Fim_5=myLinearContrastStretching(im_5);
+Fim_6=myLinearContrastStretching(im_6);
+Fim_7=myLinearContrastStretching(im_7);
+Fim_8=myLinearContrastStretching(im_8);
+
+figure2 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_1)
+title('Original Image')
+colorbar
+subplot(1,2,2),imshow(Fim_1)
+title('Contrast Streched')
+colorbar
+figure3 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_2)
+title('Original Image')
+colorbar
+subplot(1,2,2),imshow(Fim_2)
+title('Contrast Streched')
+colorbar
+figure4 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_3)
+title('Original Image')
+colorbar
+subplot(1,2,2),imshow(Fim_3)
+title('Contrast Streched')
+colorbar
+figure5 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_5)
+title('Original Image')
+colorbar
+subplot(1,2,2),imshow(Fim_5)
+title('Contrast Streched')
+colorbar
+figure6 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_6)
+title('Original Image')
+colorbar
+subplot(1,2,2),imshow(Fim_6)
+title('Contrast Streched')
+colorbar
+figure7 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_7)
+title('Original Image')
+colorbar
+subplot(1,2,2),imshow(Fim_7)
+title('Contrast Streched')
+colorbar
+figure8 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,2,1),imshow(im_8)
+title('Original Image')
+colorbar
+subplot(1,2,2),imshow(Fim_8)
+title('Contrast Streched')
+colorbar
+%% Conclusion
+% Formula for Linear Contrast Stretching function $$ \\ $$
+% T(x,y)= m*R(x,y), where m=255/max intensity of original image $$ \\ $$
+% After contrast stretching image 5 ('church'), there's no change in the 
+% original image. Because maximum intensity of that image is 255, so the
+% transformation function becomes identity for this image.
+
+%% Part c)
+% Histogram Equalization
+i1= "barbara.png";
+i2= "TEM.png";
+i3= "canyon.png";
+i4= "retina.png";
+i5= "church.png";
+i6= "chestXray.png";
+i7="statue.png";
+
+image1 = myHE(i1);
+image2 = myHE(i2);
+image3 = myHE(i3);
+image5 = myHE(i5);
+image6 = myHE(i6);
+figure9 = figure('Position', [0, 0, 5000, 5000]);
+subplot(1,5,1),imshow(image1);
+colorbar;
+axis on;
+title("barbara.png HE");
+subplot(1,5,2),imshow(image2);
+colorbar;
+axis on;
+title("TEM.png HE");
+subplot(1,5,3),imshow(image3);
+colorbar;
+axis on;
+title("canyon.png HE");
+subplot(1,5,4),imshow(image5);
+colorbar;
+axis on;
+title("church.png HE");
+subplot(1,5,5),imshow(image6);
+colorbar;
+axis on;
+title("chest xray.png HE")
+
+%% Part d)
+%% Performing Histogram Matching
+
+% Read images
+img = imread('retina.png');
+imgmask = imread('retinaMask.png');
+
+ref = imread('retinaRef.png');
+refmask = imread('retinaRefMask.png');
+
+[eqlimg,matimg] = myHM(img,imgmask,ref,refmask);
+
+% Display
+figure10=figure('Position', [0, 0, 5000, 5000]);
+colormap(jet(myNumOfColors));
+
+subplot(2,4,1), imshow(img);
+title('Original Image');
+colorbar;
+axis on;
+subplot(2,4,5), imhist(img);
+
+subplot(2,4,2), imshow(eqlimg);
+title('Histogram Equalized Image');
+colorbar;
+axis on;
+subplot(2,4,6), imhist(eqlimg);
+
+subplot(2,4,3), imshow(matimg);
+title('Histogram Matched Image');
+colorbar;
+axis on;
+subplot(2,4,7), imhist(matimg);
+
+subplot(2,4,4), imshow(ref);
+title('Reference Image');
+colorbar;
+axis on;
+subplot(2,4,8), imhist(ref);
+
+sgtitle('Histogram Matching Results');
+
+%% Conclusion
+% The histogram of the Original Image has been matched with that of the 
+% Reference Image and in the process has also been equalized. 
+%% 
+% All the operations have been performed individually for each color
+% channel.
+%% Part e)
+% Contrast-Limited Adaptive Histrogram Equalization(CLAHE)
+
+I1 = myCLAHE(i1,60,0.4);
+I1_larger_ws = myCLAHE(i1,300,0.4);
+I1_smaller_ws = myCLAHE(i1,5,0.4);
+I1_half_alpha = myCLAHE(i1,60,0.2);
+
+figure11=figure('Position', [0, 0, 5000, 5000]);
+subplot(1,4,1),imshow(I1);
+title("barbara ClAHE");
+subplot(1,4,2),imshow(I1_larger_ws);
+title("barbara low contrast CLAHE");
+subplot(1,4,3),imshow(I1_smaller_ws);
+title("barbara excessive noise ClAHE");
+subplot(1,4,4),imshow(I1_half_alpha);
+title("barbara half_alpha CLAHE");
+
+I2 = myCLAHE(i2,120,0.5);
+I2_larger_ws = myCLAHE(i2,500,0.5);
+I2_smaller_ws = myCLAHE(i2,10,0.5);
+I2_half_alpha = myCLAHE(i2,120,0.25);
+figure12=figure('Position', [0, 0, 5000, 5000]);
+subplot(1,4,1),imshow(I2);
+title("TEM ClAHE");
+subplot(1,4,2),imshow(I2_larger_ws);
+title("TEM low contrast CLAHE");
+subplot(1,4,3),imshow(I2_smaller_ws);
+title("TEM excessive noise ClAHE");
+subplot(1,4,4),imshow(I2_half_alpha);
+title("TEM half_alpha CLAHE");
+
+I3 = myCLAHE(i3,50,0.1);
+I3_larger_ws = myCLAHE(i3,200,0.1);
+I3_smaller_ws = myCLAHE(i3,5,0.1);
+I3_half_alpha = myCLAHE(i3,50,0.05);
+figure13=figure('Position', [0, 0, 5000, 5000]);
+subplot(1,4,1),imshow(I3);
+title("canyon ClAHE");
+subplot(1,4,2),imshow(I3_larger_ws);
+title("canyon low contrast CLAHE");
+subplot(1,4,3),imshow(I3_smaller_ws);
+title("canyon excessive noise ClAHE");
+subplot(1,4,4),imshow(I3_half_alpha);
+title("canyon half_alpha CLAHE");
+
+I6 = myCLAHE(i6,100,0.5);
+I6_larger_ws = myCLAHE(i6,500,0.5);
+I6_smaller_ws = myCLAHE(i6,10,0.5);
+I6_half_alpha = myCLAHE(i6,100,0.25);
+figure14=figure('Position', [0, 0, 5000, 5000]);
+subplot(1,4,1),imshow(I6);
+title("chest xray ClAHE");
+subplot(1,4,2),imshow(I6_larger_ws);
+title("chest xray low contrast CLAHE");
+subplot(1,4,3),imshow(I6_smaller_ws);
+title("chest xray excessive noise ClAHE");
+subplot(1,4,4),imshow(I6_half_alpha);
+title("chest xray half_alpha CLAHE");
+%%
+toc;
+
+##### SOURCE END #####
+--></body></html>

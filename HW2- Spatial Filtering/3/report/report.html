@@ -1,0 +1,233 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title></title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-09-01"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Image 1: Barbara</a></li><li><a href="#2">Read</a></li><li><a href="#3">Add Noise</a></li><li><a href="#4">Filtering for optimal parameter</a></li><li><a href="#5">0.9 SD</a></li><li><a href="#6">1.1 SD</a></li><li><a href="#7">Image 2: Grass</a></li><li><a href="#8">Read</a></li><li><a href="#9">Add Noise</a></li><li><a href="#10">Filtering for optimal parameter</a></li><li><a href="#11">0.9 SD</a></li><li><a href="#12">1.1 SD</a></li><li><a href="#13">Image 3: Honey Comb</a><li><a href="#14">Read</a></li><li><a href="#15">Add Noise</a></li><li><a href="#16">Filtering for optimal parameter</a></li><li><a href="#17">0.9 SD</a></li><li><a href="#18">1.1 SD</a></li><li><a href="#19">MASK</a></li></ul></div>
+
+<h2 id="1">Image 1: Barbara</h2>
+
+<h2 id="2">Read</h2><pre class="codeinput">
+input = load(<span class="string">'barbara.mat'</span>);
+input = input.imageOrig;
+input = double(input);
+</pre>
+
+<h2 id="3">Add Noise</h2><pre class="codeinput">
+G = fspecial(<span class="string">'gaussian'</span>, [9,9], 0.5);
+input = imfilter(input,G,<span class="string">'same'</span>);
+cropped_img = input(1:2:end,1:2:end);
+[m ,n] = size(cropped_img);
+sd = 0.05*(max(max(cropped_img))-min(min(cropped_img)));
+noise_img = cropped_img + sd*randn(m,n);
+</pre>
+
+<h2 id="4">Filtering for optimal parameter</h2><pre class="codeinput">
+patch_size = 9;
+window_size = 25;
+h = 1.5;
+%%
+output_img = myPatchBasedFiltering(noise_img,patch_size,window_size,h);
+rmsd = sqrt(sum(sum(output_img-noise_img).^2))/(m*n);
+</pre>
+
+<pre class="codeinput">
+optimised standard deviation barbara:- 1.500000
+rmsd barbara:- 0.022676
+</pre>
+<img vspace="5" hspace="5" src="../images/barbara.png" alt=""> 
+<h2 id="5">0.9 * SD</h2><pre class="codeinput">tic;
+patch_size = 9;
+window_size = 25;
+h = 1.5;
+
+output_img = myPatchBasedFiltering(noise_img,patch_size,window_size,h*0.9);
+rmsd = sqrt(sum(sum(output_img-noise_img).^2))/(m*n);
+</pre>
+<pre class="codeoutput">	optimised standard deviation 0.9*h barbara:- 1.350000
+	rmsd barbara:- 0.020368
+</pre>
+<h2 id="6">1.1 * SD</h2><pre class="codeinput">
+patch_size = 9;
+window_size = 25;
+h = 1.5;
+
+output_img_2 = myPatchBasedFiltering(noise_img,patch_size,window_size,h*1.1);
+rmsd = sqrt(sum(sum(output_img_2-noise_img).^2))/(m*n);
+</pre>
+<pre class="codeoutput">	optimised standard deviation 1.1*h barbara:- 1.650000
+	rmsd barbara:- 0.024915
+</pre>
+
+<h2 id="7">Image 2: Noisy Grass</h2>
+
+<h2 id="8">Read</h2><pre class="codeinput">
+input_grass = imread(<span class="string">'grass.png'</span>);
+input_grass = im2double(input_grass);
+</pre>
+
+<h2 id="9">Add Noise</h2><pre class="codeinput">
+G1 = fspecial((<span class="string">'gaussian'</span>, [9,9], 0.66);
+input_grass = imfilter(input_grass,G1,(<span class="string">'same'</span>);
+cropped_img_grass = input_grass(1:2:end,1:2:end);
+[m ,n] = size(cropped_img_grass);
+sd = 0.05*(max(max(cropped_img_grass))-min(min(cropped_img_grass)));
+noise_img = cropped_img_grass + sd*randn(m,n);
+</pre>
+
+<h2 id="10">Filtering for optimal parameter</h2><pre class="codeinput">
+patch_size = 9;
+window_size = 25;
+h = 0.01;
+
+output_img = myPatchBasedFiltering(noise_img,patch_size,window_size,h);
+rmsd = sqrt(sum(sum(output_img-noise_img).^2))/(m*n);
+</pre>
+
+<pre class="codeinput">
+	optimised standard deviation grass:- 0.010000
+	rmsd :- 0.000344
+</pre>
+<img vspace="5" hspace="5" src="../images/grass.png" alt=""> 
+<h2 id="11">0.9 * SD</h2><pre class="codeinput">
+patch_size = 9;
+window_size = 25;
+h = 0.01;
+
+output_img = myPatchBasedFiltering(noise_img,patch_size,window_size,h*0.9);
+rmsd = sqrt(sum(sum(output_img-noise_img).^2))/(m*n);
+</pre>
+<pre class="codeoutput">	optimised standard deviation 0.9*h grass:- 0.009000
+	rmsd :- 0.000268
+</pre>
+<h2 id="12">1.1 * SD</h2><pre class="codeinput">tic;
+patch_size = 9;
+window_size = 25;
+h = 0.01;
+
+output_img_2 = myPatchBasedFiltering(noise_img,patch_size,window_size,h*1.1);
+rmsd = sqrt(sum(sum(output_img_2-noise_img).^2))/(m*n);
+</pre>
+<pre class="codeoutput">	optimised standard deviation 1.1*h grass:- 0.011000
+	rmsd :- 0.000425
+</pre>
+
+<h2 id="13">Image 3: HoneyComb Real</h2>
+
+<h2 id="14">Read</h2><pre class="codeinput">
+input_honey = imread(<span class="string">'honeyCombReal.png'</span>);
+input_honey = im2double(input_honey);
+</pre>
+
+<h2 id="15">Add Noise</h2><pre class="codeinput">
+G2 = fspecial(<span class="string">'gaussian'</span>, [9,9], 1);
+input_honey = imfilter(input_honey,G2,<span class="string">'same'</span>);
+cropped_img_honey = input_honey(1:2:end,1:2:end);
+[m ,n] = size(cropped_img_honey);
+sd = 0.05*(max(max(cropped_img_honey))-min(min(cropped_img_honey)));
+noise_img = cropped_img_honey + sd*randn(m,n);
+</pre>
+
+<h2 id="16">Filtering for optimal parameter</h2><pre class="codeinput">
+patch_size = 9;
+window_size = 25;
+h = 0.015;
+
+output_img = myPatchBasedFiltering(noise_img,patch_size,window_size,h);
+rmsd = sqrt(sum(sum(output_img-noise_img).^2))/(m*n);
+</pre>
+
+<pre class="codeinput">
+	optimised standard deviation honey:- 0.015000
+	rmsd :- 0.000349
+</pre>
+<img vspace="5" hspace="5" src="../images/honey_comb.png" alt=""> 
+<h2 id="17">0.9 * SD</h2><pre class="codeinput">
+patch_size = 9;
+window_size = 25;
+h = 0.015;
+
+output_img_1 = myPatchBasedFiltering(noise_img,patch_size,window_size,h*0.9);
+rmsd = sqrt(sum(sum(output_img_1-noise_img).^2))/(m*n);
+</pre>
+<pre class="codeoutput">	optimised standard deviation 0.9*h grass:- 0.009000
+	rmsd :- 0.000268
+</pre>
+<h2 id="18">1.1 * SD</h2><pre class="codeinput">tic;
+patch_size = 9;
+window_size = 25;
+h = 0.015;
+
+output_img_2 = myPatchBasedFiltering(noise_img,patch_size,window_size,h*1.1);
+rmsd = sqrt(sum(sum(output_img_2-noise_img).^2))/(m*n);
+</pre>
+<pre class="codeoutput">	optimised standard deviation 1.1*h honey :- 0.016500
+	rmsd :- 0.000370
+</pre>
+<h2 id="19">MASK</h2><pre>
+<img vspace="5" hspace="5" src="../images/mask.png" alt=""> 
+</pre>
+
+<br></p></div>
